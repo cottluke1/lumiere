@@ -270,48 +270,20 @@
 
     h2 em { font-style: italic; color: var(--gold); }
 
-    /* ─── OUR STORY ─── */
+    /* ─── HOW IT WORKS ─── */
     #story {
       background: var(--off);
+    }
+
+    .story-intro {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 100px;
-      align-items: center;
+      gap: 60px;
+      align-items: end;
+      margin-bottom: 56px;
     }
 
-    .story-img-wrap {
-      position: relative;
-    }
-
-    .story-img-frame {
-      position: absolute;
-      top: -16px;
-      left: -16px;
-      right: 16px;
-      bottom: 16px;
-      border: 1px solid var(--gold-muted);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .story-img-wrap img {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      aspect-ratio: 4/5;
-      object-fit: cover;
-      display: block;
-    }
-
-    .story-img-placeholder {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      aspect-ratio: 4/5;
-      background: var(--gold-pale);
-    }
-
-    .story-body { display: flex; flex-direction: column; gap: 22px; }
+    .story-body { display: flex; flex-direction: column; gap: 16px; }
 
     .story-body p {
       font-size: 0.95rem;
@@ -319,7 +291,58 @@
       line-height: 1.9;
     }
 
-    .story-body p strong { color: var(--black); font-weight: 500; }
+    .how-boxes {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2px;
+      background: var(--rule);
+    }
+
+    .how-box {
+      background: var(--bg);
+      padding: 32px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: background 0.2s;
+    }
+
+    .how-box:hover { background: var(--gold-pale); }
+
+    .how-box-icon {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .how-box-icon svg { color: var(--gold); }
+
+    .how-box-num {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-muted);
+      font-weight: 400;
+    }
+
+    .how-box h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.25;
+    }
+
+    .how-box p {
+      font-size: 0.8rem;
+      color: var(--gray);
+      line-height: 1.7;
+      margin: 0;
+    }
 
     .story-stats {
       display: flex;
@@ -576,7 +599,8 @@
       #hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-right { min-height: 50vw; }
       .hero-left { padding: 64px 8%; }
-      #story { grid-template-columns: 1fr; gap: 52px; }
+      .story-intro { grid-template-columns: 1fr; gap: 24px; }
+      .how-boxes { grid-template-columns: 1fr 1fr; }
       .styles-intro { grid-template-columns: 1fr; }
       .gallery { grid-template-columns: 1fr 1fr; }
       .g1, .g2, .g3, .g4, .g5 { grid-column: auto; grid-row: auto; }
@@ -586,6 +610,7 @@
     @media (max-width: 640px) {
       nav a:not(.nav-cta) { display: none; }
       section { padding: 72px 6%; }
+      .how-boxes { grid-template-columns: 1fr; }
       .gallery { grid-template-columns: 1fr; }
       .footer-note { text-align: left; }
     }
@@ -597,7 +622,7 @@
   <header>
     <div class="logo">Lumier<span class="logo-dot">.</span></div>
     <nav>
-      <a href="#story">Our Story</a>
+      <a href="#story">How It Works</a>
       <a href="#work">Gallery</a>
       <a href="#styles">Styles</a>
       <a href="order.html" class="nav-cta">Order</a>
@@ -614,8 +639,8 @@
       <h1>Your Story,<br />Rendered in<br /><em>Timeless Art</em></h1>
       <p>
         We transform your most cherished photographs into exquisite,
-        museum-quality paintings — delivered as a stunning high-resolution
-        digital file, ready to print at any scale.
+        museum-quality paintings — delivered as a digital file, canvas print,
+        or framed piece ready to hang. You don't pay until you love it.
       </p>
       <div class="hero-actions">
         <a href="order.html" class="btn-dark">Order a Piece</a>
@@ -626,9 +651,9 @@
       </div>
       <div class="hero-digital-note">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="3" width="20" height="14" rx="1.5"/><path d="M8 21h8M12 17v4"/>
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
-        <p>All works are delivered as premium digital files — print on canvas, fine art paper, or metal at any size.</p>
+        <p>"My husband passed away last year and my daughter surprised me with a painting made from our last photo together. I sobbed. It now hangs above my fireplace and I talk to it every morning." — <em>Margaret T.</em></p>
       </div>
     </div>
     <div class="hero-right">
@@ -640,48 +665,92 @@
     </div>
   </section>
 
-  <!-- ═══════ OUR STORY ═══════ -->
+  <!-- ═══════ HOW IT WORKS ═══════ -->
   <section id="story">
-    <div class="story-img-wrap">
-      <div class="story-img-frame"></div>
-      <img src="story.jpg" alt="Studio detail" onerror="this.outerHTML='<div class=\'story-img-placeholder\'></div>'" />
-    </div>
-    <div class="story-body">
-      <div class="section-eyebrow">
-        <div class="section-eyebrow-line"></div>
-        <span>Our Story</span>
+    <div class="story-intro">
+      <div class="story-body">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <span>How It Works</span>
+        </div>
+        <h2>Simple, Personal,<br /><em>No Risk</em></h2>
+        <p>We turn your favorite photos into beautiful paintings — and you don't pay a dollar until you've seen it and love it.</p>
       </div>
-      <h2>Where Every<br />Detail <em>Matters</em></h2>
-      <p>
-        Lumier was founded on a single belief: that every photograph holds a memory
-        worth elevating. Our studio brings together the finest artistic techniques
-        to transform your images into paintings that carry emotional depth,
-        luminous color, and lasting beauty.
-      </p>
-      <p>
-        Whether it's a beloved pet, a family home, a landscape that took your breath
-        away, or a portrait of someone irreplaceable — we render it with the care
-        and craftsmanship it deserves.
-      </p>
-      <p>
-        Each finished piece is delivered as a <strong>high-resolution digital file</strong>,
-        produced at print-ready quality — perfect for large-format canvas, fine art
-        paper, or any medium you choose.
-      </p>
       <div class="story-stats">
         <div class="stat">
           <div class="stat-num">500+</div>
           <div class="stat-label">Pieces Created</div>
         </div>
         <div class="stat">
-          <div class="stat-num">3</div>
-          <div class="stat-label">Signature Styles</div>
+          <div class="stat-num">4.97/5</div>
+          <div class="stat-label">Star Rating</div>
         </div>
         <div class="stat">
           <div class="stat-num">48h</div>
-          <div class="stat-label">Avg. Delivery</div>
+          <div class="stat-label">Delivery Guarantee</div>
         </div>
       </div>
+    </div>
+
+    <div class="how-boxes">
+
+      <div class="how-box">
+        <div class="how-box-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="how-box-num">Step 01</div>
+        <h4>Upload Your Photo</h4>
+        <p>Any photo works — a pet, a home, a person, a memory. The clearer the photo, the better the painting.</p>
+      </div>
+
+      <div class="how-box">
+        <div class="how-box-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>
+          </svg>
+        </div>
+        <div class="how-box-num">Step 02</div>
+        <h4>We Start Right Away</h4>
+        <p>Our team gets to work immediately and reaches out within the hour to confirm your details and preferences.</p>
+      </div>
+
+      <div class="how-box">
+        <div class="how-box-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="how-box-num">Step 03</div>
+        <h4>See Your First Version</h4>
+        <p>We send you a preview of the finished painting. Want any changes? We go back and forth until it's exactly right.</p>
+      </div>
+
+      <div class="how-box">
+        <div class="how-box-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div class="how-box-num">Step 04</div>
+        <h4>Approve It, Then Pay</h4>
+        <p>Love it? We send a secure Stripe payment link. The money only changes hands once you're completely happy.</p>
+      </div>
+
+      <div class="how-box">
+        <div class="how-box-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="how-box-num">Step 05</div>
+        <h4>It's Delivered to You</h4>
+        <p>Digital file sent instantly, or your canvas print or framed piece shipped straight to your door.</p>
+      </div>
+
     </div>
   </section>
 
@@ -810,13 +879,12 @@
         <div class="footer-tagline">Custom Fine Art Paintings</div>
       </div>
       <div class="footer-note">
-        All artwork is delivered as a <strong>high-resolution digital file</strong>.<br />
-        No physical canvas is shipped. Print at any size, anywhere.
+        You don't pay until you see your painting<br />and love every detail of it.
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Lumier Studio. All rights reserved.</span>
-      <span>Fine Art · Digital Delivery · Custom Paintings</span>
+      <span>Fine Art · Custom Paintings · Satisfaction Guaranteed</span>
     </div>
   </footer>
 
