@@ -975,42 +975,44 @@
       btn.textContent = 'Sending…';
       btn.disabled = true;
 
-      // Build payload as plain object
-      const payload = {
-        first_name:  document.getElementById('fname').value.trim(),
-        last_name:   document.getElementById('lname').value.trim(),
-        email:       document.getElementById('email').value.trim(),
-        phone:       document.getElementById('phone').value.trim(),
-        format:      document.getElementById('format').value,
-        canvas_size: document.getElementById('canvas-size').value || '',
-        frame_size:  document.getElementById('frame-size').value  || '',
-        frame_color: (document.querySelector('input[name="frame_color"]:checked') || {}).value || '',
-        notes:       document.getElementById('notes').value.trim(),
-      };
-
-      // Convert photo to base64 if provided
+      // Fire photo to Google Drive (fire-and-forget)
       const fileInput = document.getElementById('photo-upload');
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        payload.photo_name = file.name;
-        payload.photo_type = file.type;
-        payload.photo_b64  = await new Promise((resolve, reject) => {
+        const photo_b64 = await new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload  = ev => resolve(ev.target.result.split(',')[1]);
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
-      }
-
-      try {
-        await fetch('https://script.google.com/macros/s/AKfycbywc6u29Wft5MHcJ199jaNf6TXziuOtLiaq3Z4bZZVNcrqzZLizicsJGC3pD5-UBxjv/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbywc6u29Wft5MHcJ199jaNf6TXziuOtLiaq3Z4bZZVNcrqzZLizicsJGC3pD5-UBxjv/exec', {
           method: 'POST',
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            photo_b64,
+            photo_name: file.name,
+            photo_type: file.type,
+            customer:   document.getElementById('fname').value.trim() + ' ' + document.getElementById('lname').value.trim()
+          }),
           mode: 'no-cors'
         });
-        form.style.display = 'none';
-        document.getElementById('confirmation').classList.add('show');
-        document.getElementById('order-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Submit all text fields to Formspree
+      try {
+        const res = await fetch('https://formspree.io/f/xpqnzqkp', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('confirmation').classList.add('show');
+          document.getElementById('order-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          btn.textContent = 'Submit Your Request';
+          btn.disabled = false;
+          alert('Something went wrong. Please try again or contact us directly.');
+        }
       } catch {
         btn.textContent = 'Submit Your Request';
         btn.disabled = false;
