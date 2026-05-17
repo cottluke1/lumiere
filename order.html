@@ -975,55 +975,42 @@
       btn.textContent = 'Sending…';
       btn.disabled = true;
 
-      // Fire photo to Google Drive (fire-and-forget)
+      // Build payload
+      const payload = {
+        first_name:  document.getElementById('fname').value.trim(),
+        last_name:   document.getElementById('lname').value.trim(),
+        email:       document.getElementById('email').value.trim(),
+        phone:       document.getElementById('phone').value.trim(),
+        format:      document.getElementById('format').value,
+        canvas_size: document.getElementById('canvas-size').value || '',
+        frame_size:  document.getElementById('frame-size').value  || '',
+        frame_color: (document.querySelector('input[name="frame_color"]:checked') || {}).value || '',
+        notes:       document.getElementById('notes').value.trim()
+      };
+
+      // Attach photo as base64 if provided
       const fileInput = document.getElementById('photo-upload');
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        const photo_b64 = await new Promise((resolve, reject) => {
+        payload.photo_name = file.name;
+        payload.photo_type = file.type;
+        payload.photo_b64  = await new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload  = ev => resolve(ev.target.result.split(',')[1]);
           reader.onerror = reject;
           reader.readAsDataURL(file);
         });
-        fetch('https://script.google.com/macros/s/AKfycbywc6u29Wft5MHcJ199jaNf6TXziuOtLiaq3Z4bZZVNcrqzZLizicsJGC3pD5-UBxjv/exec', {
-          method: 'POST',
-          body: JSON.stringify({
-            photo_b64,
-            photo_name: file.name,
-            photo_type: file.type,
-            customer:   document.getElementById('fname').value.trim() + ' ' + document.getElementById('lname').value.trim()
-          }),
-          mode: 'no-cors'
-        });
       }
 
-      // Submit all text fields to Formspree (no photo)
-      const fsData = new FormData();
-      fsData.append('first_name',  document.getElementById('fname').value.trim());
-      fsData.append('last_name',   document.getElementById('lname').value.trim());
-      fsData.append('email',       document.getElementById('email').value.trim());
-      fsData.append('phone',       document.getElementById('phone').value.trim());
-      fsData.append('format',      document.getElementById('format').value);
-      fsData.append('canvas_size', document.getElementById('canvas-size').value || '');
-      fsData.append('frame_size',  document.getElementById('frame-size').value  || '');
-      fsData.append('frame_color', (document.querySelector('input[name="frame_color"]:checked') || {}).value || '');
-      fsData.append('notes',       document.getElementById('notes').value.trim());
-
       try {
-        const res = await fetch('https://formspree.io/f/xpqnzqkp', {
+        await fetch('https://script.google.com/macros/s/AKfycbywc6u29Wft5MHcJ199jaNf6TXziuOtLiaq3Z4bZZVNcrqzZLizicsJGC3pD5-UBxjv/exec', {
           method: 'POST',
-          body: fsData,
-          headers: { 'Accept': 'application/json' }
+          body: JSON.stringify(payload),
+          mode: 'no-cors'
         });
-        if (res.ok) {
-          form.style.display = 'none';
-          document.getElementById('confirmation').classList.add('show');
-          document.getElementById('order-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          btn.textContent = 'Submit Your Request';
-          btn.disabled = false;
-          alert('Something went wrong. Please try again or contact us directly.');
-        }
+        form.style.display = 'none';
+        document.getElementById('confirmation').classList.add('show');
+        document.getElementById('order-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch {
         btn.textContent = 'Submit Your Request';
         btn.disabled = false;
