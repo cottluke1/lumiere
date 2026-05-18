@@ -626,7 +626,7 @@
       <div class="page-hero-right">
         <p>
           Tell us about your piece, upload your photograph, and choose your format.
-          Our team will be in touch within the next day You will see your finished
+          Our team will be in touch within the hour. You will see your finished
           painting before you pay a single dollar — a secure payment link is only
           sent once you've seen it and love it.
         </p>
@@ -652,7 +652,7 @@
             </div>
             <div class="style-option-price">
               <span>From</span>
-              $99
+              $199
             </div>
           </label>
 
@@ -664,7 +664,7 @@
             </div>
             <div class="style-option-price">
               <span>From</span>
-              $149
+              $499
             </div>
           </label>
 
@@ -676,7 +676,7 @@
             </div>
             <div class="style-option-price">
               <span>From</span>
-              $199
+              $899
             </div>
           </label>
 
@@ -696,7 +696,7 @@
           <div class="process-item">
             <div class="process-num">02</div>
             <div class="process-text">
-              <h4>We Reach Out Within 12 hours</h4>
+              <h4>We Reach Out Within the Hour</h4>
               <p>Our team contacts you via message to confirm your order details, size preferences, and any special requests.</p>
             </div>
           </div>
@@ -864,19 +864,19 @@
         <div class="confirm-rule"></div>
         <h3>Request Received</h3>
         <p>Thank you. Your photograph has been submitted and our team is already on it.</p>
-        <p>We will reach out via message within the next day to confirm your order details.</p>
+        <p>We will reach out via message within the next hour to confirm your order details.</p>
         <div class="confirm-badges">
           <div class="confirm-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
             </svg>
-            Expect a message within 12 hours
+            Expect a message within 1 hour
           </div>
           <div class="confirm-badge">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
-            Secure payment link sent when approved
+            Secure payment link sent when complete
           </div>
         </div>
       </div>
@@ -892,8 +892,8 @@
         <div class="footer-tagline">Custom Fine Art Paintings</div>
       </div>
       <div class="footer-note">
-        You don't pay until you see your painting
-and love every detail of it.
+        All artwork is delivered as a <strong>high-resolution digital file</strong>.<br />
+        No payment is taken until your painting is complete.
       </div>
     </div>
     <div class="footer-bottom">
@@ -921,6 +921,7 @@ and love every detail of it.
         for (let i = 0; i < select.options.length; i++) {
           if (select.options[i].value === val) { select.selectedIndex = i; break; }
         }
+        select.dispatchEvent(new Event('change'));
       });
     });
 
@@ -970,9 +971,17 @@ and love every detail of it.
       const ok = ['fname', 'phone', 'email', 'format'].every(id => document.getElementById(id).value.trim());
       if (!ok) { alert('Please complete all required fields.'); return; }
 
+      const fmt = document.getElementById('format').value;
+      if (fmt === 'canvas' && !document.getElementById('canvas-size').value) {
+        alert('Please select a canvas size.'); return;
+      }
+      if (fmt === 'framed' && !document.getElementById('frame-size').value) {
+        alert('Please select a frame size.'); return;
+      }
+
       const form = e.target;
       const btn = form.querySelector('.submit-btn');
-      btn.textContent = 'Please wait until the request is done sending…';
+      btn.textContent = 'Please wait, this usually takes around 10 seconds…';
       btn.disabled = true;
 
       // Build payload
