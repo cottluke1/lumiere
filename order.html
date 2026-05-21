@@ -1024,6 +1024,11 @@
           body: JSON.stringify(payload),
           mode: 'no-cors'
         });
+        gtag('event', 'conversion', {
+          'send_to': 'AW-18178030463/1kWHCLPmxrAcEP_2-ttD',
+          'value': 1.0,
+          'currency': 'USD'
+        });
         form.style.display = 'none';
         document.getElementById('confirmation').classList.add('show');
         document.getElementById('order-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
